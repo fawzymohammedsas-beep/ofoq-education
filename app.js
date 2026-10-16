@@ -79,15 +79,105 @@
   function openExam(item){if(!item.question){openModal(`<h2>${escapeHtml(item.title)}</h2><p>لم يضف مالك المنصة أسئلة لهذا الامتحان بعد.</p>`);return}state.quizId=item.id;state.selectedAnswers={};openModal(`<div class="eyebrow">اختبر معلوماتك</div><h2 style="margin-top:10px">${escapeHtml(item.title)}</h2><p>نسخة تجريبية — سؤال واحد.</p><form id="quiz-form"><h3 class="quiz-question">${escapeHtml(item.question)}</h3>${[item.a,item.b,item.c].map((a,i)=>`<label class="quiz-option"><input type="radio" name="answer" value="${i}" required> ${escapeHtml(a||`الاختيار ${['أ','ب','ج'][i]}`)}</label>`).join('')}<button class="primary-btn" style="margin-top:13px;width:100%" type="submit">تأكيد الإجابة</button></form>`)}
   function bindEvents(){document.addEventListener('click',e=>{const nav=e.target.closest('[data-view]');if(nav){state.view=nav.dataset.view;$('#sidebar').classList.remove('open');render();return}const goto=e.target.closest('[data-goto]');if(goto){state.view=goto.dataset.goto;render();return}const tab=e.target.closest('[data-admin-tab]');if(tab){state.adminTab=tab.dataset.adminTab;render();return}const open=e.target.closest('[data-open-item]');if(open){openItem(open.dataset.openItem);return}const del=e.target.closest('[data-delete-item]');if(del){if(!isOwner())return toast('غير مصرح.');const item=content.find(x=>x.id===Number(del.dataset.deleteItem));if(item&&confirm(`هل تريد حذف «${item.title}»؟`)){content=content.filter(x=>x.id!==item.id);saveContent();render();toast('تم حذف العنصر من بيانات العرض التجريبي.')}return}const edit=e.target.closest('[data-edit-item]');if(edit){const item=content.find(x=>x.id===Number(edit.dataset.editItem));if(item){state.adminTab=item.type;render();$('#item-title').value=item.title;$('#item-subject').value=item.subject||'';$('#item-description').value=item.description||'';toast('عدّل البيانات ثم احفظها كعنصر جديد في هذه النسخة التجريبية.')}return}});
     $('#preview-login').addEventListener('click',()=>openModal(`<h2>الدخول إلى النسخة التجريبية</h2><p>اكتب بريدًا للتجربة. لا يتم الاتصال بخدمة تسجيل Google في هذه النسخة.</p><form id="demo-login-form"><div class="field"><label for="demo-email">البريد الإلكتروني</label><input id="demo-email" type="email" required placeholder="name@example.com"></div><div class="field" style="margin-top:12px"><label for="demo-name">الاسم الظاهر</label><input id="demo-name" placeholder="طالب أفق"></div><button class="primary-btn" style="width:100%;margin-top:15px" type="submit">دخول للمعاينة ←</button></form><p class="setup-note" style="text-align:right">استخدم بريد المالك المحدد لعرض لوحة الإدارة. هذه صلاحية محاكاة محلية فقط وليست حماية حقيقية.</p>`));
-    $('#google-login').addEventListener('click',async()=>{
-      if(!firebaseEnabled){openModal(`<h2>تفعيل تسجيل Google</h2><p>الموقع مجهّز للربط، لكن بيانات مشروع Firebase لم تُضف بعد. افتح ملف <b>firebase-config.js</b> وضع إعدادات مشروعك، ثم فعّل Google من Authentication وانشر قواعد الأمان الموجودة في الحزمة.</p><button class="primary-btn" id="google-info-ok" style="width:100%">حسنًا</button>`);return;}
-      try{await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());closeModal();}catch(err){console.error(err);toast(err.code==='auth/popup-closed-by-user'?'تم إغلاق نافذة تسجيل الدخول.':'فشل تسجيل الدخول. تحقق من إعدادات Google وAuthorized domains.');}
+    
+    $('#google-login').addEventListener('click', async () => {
+      if (!firebaseEnabled) {
+        openModal(`
+          <h2>تفعيل تسجيل Google</h2>
+          <p>تأكد من إعداد firebase-config.js وتفعيل Google من Firebase Authentication.</p>
+          <button class="primary-btn" id="google-info-ok" style="width:100%">
+            حسنًا
+          </button>
+        `);
+        return;
+      }
+
+      try {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        await auth.signInWithRedirect(provider);
+      } catch (err) {
+        console.error('Google sign-in error:', err);
+        toast('تعذّر بدء تسجيل الدخول. تحقق من الإنترنت وإعدادات Firebase.');
+      }
     });
-    if(firebaseEnabled){$('#preview-login').classList.add('hidden');auth.onAuthStateChanged(user=>{if(user){login(user.email||'',user.displayName||user.email,user);}else if(state.user?.uid){state.user=null;$('#app-shell').classList.add('hidden');$('#login-screen').classList.remove('hidden');}});}
-    $('#modal-close').addEventListener('click',closeModal);$('#modal-backdrop').addEventListener('click',e=>{if(e.target.id==='modal-backdrop')closeModal()});document.addEventListener('submit',async e=>{e.preventDefault();if(e.target.id==='demo-login-form'){const email=$('#demo-email').value;const name=$('#demo-name').value.trim()||email.split('@')[0];closeModal();login(email,name)}if(e.target.id==='content-form'){if(!isOwner())return toast('غير مصرح بإضافة المحتوى.');const fd=new FormData(e.target);const file=fd.get('file');const item={id:Date.now(),type:state.adminTab,title:String(fd.get('title')).trim(),subject:String(fd.get('subject')||'').trim(),description:String(fd.get('description')||'').trim(),status:String(fd.get('status')||'منشور'),created:Date.now(),icon:({course:'▤',lecture:'▷',file:'▧',exam:'✓'}[state.adminTab]),url:String(fd.get('url')||'').trim(),fileName:file&&file.name?file.name:'',fileUrl:'',question:String(fd.get('question')||'').trim(),a:String(fd.get('a')||'').trim(),b:String(fd.get('b')||'').trim(),c:String(fd.get('c')||'').trim(),correct:Number(fd.get('correct')||0)};
-      if(file&&file.name&&firebaseEnabled&&auth.currentUser&&storage&&state.adminTab==='file'){try{const safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');const fileRef=storage.ref('course-files/'+Date.now()+'-'+safeName);await fileRef.put(file);item.fileUrl=await fileRef.getDownloadURL();}catch(err){console.error(err);return toast('فشل رفع الملف. تحقق من قواعد Firebase Storage وحجم الملف.');}}
-      content.push(item);saveContent();render();toast(firebaseEnabled&&auth.currentUser?'تم حفظ المحتوى ومزامنته مع المنصة.':'تم حفظ العنصر في هذا المتصفح فقط؛ فعّل Firebase للمزامنة بين الطلاب.');}if(e.target.id==='quiz-form'){const item=content.find(x=>x.id===state.quizId);const answer=Number(new FormData(e.target).get('answer'));const correct=answer===Number(item.correct);state.lastScore=correct?100:0;openModal(`<div class="eyebrow">نتيجة الامتحان التجريبي</div><div class="result-score">${correct?'100%':'0%'}</div><h2>${correct?'إجابة صحيحة، أحسنت!':'حاول مرة أخرى'}</h2><p>${correct?'واصل التقدم، كل إجابة صحيحة خطوة للأمام.':'راجع الدرس ثم أعد المحاولة.'}</p><button class="primary-btn" id="finish-quiz" style="width:100%">إنهاء</button>`);}});
-    $('#modal-content').addEventListener('click',e=>{if(e.target.id==='google-info-ok')closeModal();if(e.target.id==='finish-quiz')closeModal()});$('#logout').addEventListener('click',logout);$('#sidebar-support').addEventListener('click',()=>openModal(`<h2>تواصل مع دعم أفق</h2><p>اختار وسيلة التواصل المناسبة. رقم التواصل: 01024905914</p><div class="form-actions"><a class="primary-btn" href="${WA_URL}" target="_blank" rel="noopener">التواصل عبر واتساب ↗</a><a class="secondary-btn" href="${TG_URL}" target="_blank" rel="noopener">التواصل عبر تليجرام ↗</a></div><p class="setup-note">رابط تليجرام المرتبط برقم الهاتف قد لا يعمل مع كل الحسابات؛ يفضّل استبداله باسم مستخدم أو رابط حساب مباشر.</p>`));$('#open-menu').addEventListener('click',()=>$('#sidebar').classList.add('open'));$('#close-menu').addEventListener('click',()=>$('#sidebar').classList.remove('open'));
-  }
+
+    if (firebaseEnabled) {
+      $('#preview-login').classList.add('hidden');
+
+      auth.getRedirectResult().catch(err => {
+        console.error('Google redirect error:', err);
+
+        if (err.code === 'auth/network-request-failed') {
+          toast('مشكلة في الاتصال بالإنترنت أو بخدمات Google.');
+        } else {
+          toast('تعذّر تسجيل الدخول. راجع إعدادات Firebase.');
+        }
+      });
+
+      auth.onAuthStateChanged(user => {
+        if (user) {
+          login(
+            user.email || '',
+            user.displayName || user.email,
+            user
+          );
+        } else if (state.user?.uid) {
+          state.user = null;
+          $('#app-shell').classList.add('hidden');
+          $('#login-screen').classList.remove('hidden');
+        }
+      });
+    }
+
+    $('#google-login').addEventListener('click', async () => {
+      if (!firebaseEnabled) {
+        openModal(`
+          <h2>تفعيل تسجيل Google</h2>
+          <p>تأكد من إعداد firebase-config.js وتفعيل Google من Firebase Authentication.</p>
+          <button class="primary-btn" id="google-info-ok" style="width:100%">
+            حسنًا
+          </button>
+        `);
+        return;
+      }
+
+      try {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        await auth.signInWithRedirect(provider);
+      } catch (err) {
+        console.error('Google sign-in error:', err);
+        toast('تعذّر بدء تسجيل الدخول. تحقق من الإنترنت وإعدادات Firebase.');
+      }
+    });
+
+    if (firebaseEnabled) {
+      $('#preview-login').classList.add('hidden');
+
+      auth.getRedirectResult().catch(err => {
+        console.error('Google redirect error:', err);
+
+        if (err.code === 'auth/network-request-failed') {
+          toast('مشكلة في الاتصال بالإنترنت أو بخدمات Google.');
+        } else {
+          toast('تعذّر تسجيل الدخول. راجع إعدادات Firebase.');
+        }
+      });
+
+      auth.onAuthStateChanged(user => {
+        if (user) {
+          login(
+            user.email || '',
+            user.displayName || user.email,
+            user
+          );
+        } else if (state.user?.uid) {
+          state.user = null;
+          $('#app-shell').classList.add('hidden');
+          $('#login-screen').classList.remove('hidden');
+        }
+      });
+    }
+
+  
   bindEvents();
 })();
