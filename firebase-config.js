@@ -1,5 +1,5 @@
 
-const firebaseConfig = {
+window.OFOQ_FIREBASE_CONFIG = {
   apiKey: "AIzaSyD9T-cNJrbIjcdeTjEUXis2rs6PFEDw1IY",
   authDomain: "ofoq-education.firebaseapp.com",
   projectId: "ofoq-education",
@@ -7,7 +7,3 @@ const firebaseConfig = {
   messagingSenderId: "221052771104",
   appId: "1:221052771104:web:7dec0a9d63320ea6ac9545"
 };
-
-if (typeof window !== "undefined") {
-  window.firebaseConfig = firebaseConfig;
-}
