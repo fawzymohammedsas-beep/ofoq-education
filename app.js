@@ -128,56 +128,11 @@
         }
       });
     }
+                         bindEvents();
+})();
 
-    $('#google-login').addEventListener('click', async () => {
-      if (!firebaseEnabled) {
-        openModal(`
-          <h2>تفعيل تسجيل Google</h2>
-          <p>تأكد من إعداد firebase-config.js وتفعيل Google من Firebase Authentication.</p>
-          <button class="primary-btn" id="google-info-ok" style="width:100%">
-            حسنًا
-          </button>
-        `);
-        return;
-      }
 
-      try {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        await auth.signInWithRedirect(provider);
-      } catch (err) {
-        console.error('Google sign-in error:', err);
-        toast('تعذّر بدء تسجيل الدخول. تحقق من الإنترنت وإعدادات Firebase.');
-      }
-    });
-
-    if (firebaseEnabled) {
-      $('#preview-login').classList.add('hidden');
-
-      auth.getRedirectResult().catch(err => {
-        console.error('Google redirect error:', err);
-
-        if (err.code === 'auth/network-request-failed') {
-          toast('مشكلة في الاتصال بالإنترنت أو بخدمات Google.');
-        } else {
-          toast('تعذّر تسجيل الدخول. راجع إعدادات Firebase.');
-        }
-      });
-
-      auth.onAuthStateChanged(user => {
-        if (user) {
-          login(
-            user.email || '',
-            user.displayName || user.email,
-            user
-          );
-        } else if (state.user?.uid) {
-          state.user = null;
-          $('#app-shell').classList.add('hidden');
-          $('#login-screen').classList.remove('hidden');
-        }
-      });
-    }
-
+    
   
   bindEvents();
 })();
