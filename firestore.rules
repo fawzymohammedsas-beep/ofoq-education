@@ -1,0 +1,21 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null && request.auth.token.email_verified == true; }
+    function owner() { return signedIn() && request.auth.token.email == 'fawzymohammedsas@gmail.com' && request.auth.token.firebase.sign_in_provider == 'google.com'; }
+
+    match /content/{contentId} {
+      allow read: if owner() || (signedIn() && resource.data.status == 'منشور');
+      allow create, update, delete: if owner();
+    }
+
+    match /users/{userId} {
+      allow create: if signedIn() && request.auth.uid == userId && request.resource.data.uid == request.auth.uid && !('role' in request.resource.data);
+      allow update: if signedIn() && request.auth.uid == userId && request.resource.data.uid == resource.data.uid && !('role' in request.resource.data);
+      allow read: if owner() || (signedIn() && request.auth.uid == userId);
+      allow delete: if owner();
+    }
+
+    match /{document=**} { allow read, write: if false; }
+  }
+}
