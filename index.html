@@ -1,31 +1,98 @@
+
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#070b12"><meta name="description" content="أُفُق التعليمية — تعلّم، تقدّم، واصنع مستقبلك.">
-  <title>أُفُق التعليمية | OFOQ</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070b12">
+  <meta name="description" content="أُفُق التعليمية — تعلّم، تقدّم، واصنع مستقبلك.">
+  <title>أُفُق التعليمية | OFOQ</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+
   <section id="login-screen" class="login-screen">
     <div class="login-card glass">
-      <div class="login-logo"><img src="assets/ofoq-logo.png" alt="شعار أفق التعليمية"></div>
-      <div class="eyebrow"><span class="pulse"></span> منصتك.. أفقك للمستقبل</div>
+      <div class="login-logo">
+        <img src="assets/ofoq-logo.png" alt="شعار أفق التعليمية">
+      </div>
+
+      <div class="eyebrow">
+        <span class="pulse"></span>
+        منصتك.. أفقك للمستقبل
+      </div>
+
       <h1>افتح <span>أُفُقك</span><br>وابدأ رحلتك.</h1>
-      <p class="muted login-desc">كل محاضراتك وملفاتك وامتحاناتك في مكان واحد، بتجربة تعليمية صُممت لتليق بطموحك.</p>
-      <button id="google-login" class="google-button"><span class="google-g">G</span><span>المتابعة باستخدام Google</span><span class="arrow">←</span></button>
-      <button id="preview-login" class="text-button">استكشف النسخة التجريبية <span>←</span></button>
-      <p class="login-foot"><span class="lock">▣</span> دخول آمن • تجربة تعليمية منظمة</p>
-      <div class="setup-note">نسخة تجريبية للواجهة — تسجيل Google الحقيقي يحتاج إعداد Firebase قبل النشر.</div>
+
+      <p class="muted login-desc">
+        كل محاضراتك وملفاتك وامتحاناتك في مكان واحد،
+        بتجربة تعليمية صُممت لتليق بطموحك.
+      </p>
+
+      <button id="google-login" class="google-button">
+        <span class="google-g">G</span>
+        <span>المتابعة باستخدام Google</span>
+        <span class="arrow">←</span>
+      </button>
+
+      <button id="preview-login" class="text-button">
+        استكشف النسخة التجريبية <span>←</span>
+      </button>
+
+      <p class="login-foot">
+        <span class="lock">▣</span>
+        دخول آمن • تجربة تعليمية منظمة
+      </p>
+
+      <div class="setup-note">
+        تسجيل Google يحتاج إعداد Firebase بشكل صحيح.
+      </div>
     </div>
-    <div class="login-side"><div class="side-orbit orbit-a"></div><div class="side-orbit orbit-b"></div><img src="assets/ofoq-logo.png" alt="أفق"><div class="side-caption"><span>OFOQ EDUCATIONAL</span><strong>معًا نحو مستقبل أوسع.</strong><small>تعليم • طموح • إنجاز</small></div></div>
+
+    <div class="login-side">
+      <div class="side-orbit orbit-a"></div>
+      <div class="side-orbit orbit-b"></div>
+
+      <img src="assets/ofoq-logo.png" alt="أفق">
+
+      <div class="side-caption">
+        <span>OFOQ EDUCATIONAL</span>
+        <strong>معًا نحو مستقبل أوسع.</strong>
+        <small>تعليم • طموح • إنجاز</small>
+      </div>
+    </div>
   </section>
 
   <div id="app-shell" class="app-shell hidden">
     <aside class="sidebar glass" id="sidebar">
-      <div class="brand"><img src="assets/ofoq-logo.png" alt="أفق"><div><strong>أُفُق التعليمية</strong><small>OFOQ EDUCATIONAL</small></div><button id="close-menu" class="icon-btn mobile-only" aria-label="إغلاق القائمة">×</button></div>
-      <div class="profile-mini"><div class="avatar" id="mini-avatar">ف</div><div class="profile-meta"><strong id="mini-name">طالب أفق</strong><small id="mini-role">طالب المنصة</small></div><span class="online-dot"></span></div>
+
+      <div class="brand">
+        <img src="assets/ofoq-logo.png" alt="أفق">
+        <div>
+          <strong>أُفُق التعليمية</strong>
+          <small>OFOQ EDUCATIONAL</small>
+        </div>
+        <button id="close-menu" class="icon-btn mobile-only" aria-label="إغلاق القائمة">×</button>
+      </div>
+
+      <div class="profile-mini">
+        <div class="avatar" id="mini-avatar">ف</div>
+        <div class="profile-meta">
+          <strong id="mini-name">طالب أفق</strong>
+          <small id="mini-role">طالب المنصة</small>
+        </div>
+        <span class="online-dot"></span>
+      </div>
+
       <div class="nav-label">القائمة الرئيسية</div>
+
       <nav class="main-nav">
         <button class="nav-item active" data-view="home"><span class="nav-icon">⌂</span> الرئيسية</button>
         <button class="nav-item" data-view="courses"><span class="nav-icon">▤</span> الكورسات والمواد</button>
@@ -35,31 +102,85 @@
         <button class="nav-item" data-view="honor"><span class="nav-icon">♛</span> لوحة الشرف</button>
         <button class="nav-item" data-view="certificates"><span class="nav-icon">♧</span> شهاداتي</button>
       </nav>
-      <div id="admin-nav-wrap" class="hidden"><div class="nav-label admin-label">إدارة المنصة</div><nav class="main-nav"><button class="nav-item admin-nav" data-view="admin"><span class="nav-icon">⚙</span> لوحة تحكم المالك <span class="admin-pill">ADMIN</span></button></nav></div>
-      <div class="sidebar-bottom"><div class="support-box"><div class="support-icon">✦</div><strong>محتاج مساعدة؟</strong><p>فريق أفق معاك في رحلتك.</p><button id="sidebar-support">تواصل مع الدعم <span>←</span></button></div><button id="logout" class="logout-button"><span>↪</span> تسجيل الخروج</button></div>
+
+      <div id="admin-nav-wrap" class="hidden">
+        <div class="nav-label admin-label">إدارة المنصة</div>
+        <nav class="main-nav">
+          <button class="nav-item admin-nav" data-view="admin">
+            <span class="nav-icon">⚙</span>
+            لوحة تحكم المالك
+            <span class="admin-pill">ADMIN</span>
+          </button>
+        </nav>
+      </div>
+
+      <div class="sidebar-bottom">
+        <div class="support-box">
+          <div class="support-icon">✦</div>
+          <strong>محتاج مساعدة؟</strong>
+          <p>فريق أفق معاك في رحلتك.</p>
+          <button id="sidebar-support">تواصل مع الدعم <span>←</span></button>
+        </div>
+
+        <button id="logout" class="logout-button">
+          <span>↪</span> تسجيل الخروج
+        </button>
+      </div>
     </aside>
+
     <main class="main-content">
-      <header class="topbar"><div class="topbar-start"><button id="open-menu" class="icon-btn mobile-only" aria-label="فتح القائمة">☰</button><div><div class="breadcrumb">أُفُق التعليمية <span>/</span> <b id="crumb-current">الرئيسية</b></div><div class="today" id="today-label">رحلتك التعليمية تبدأ من هنا</div></div></div><div class="topbar-actions"><button class="icon-btn notification" title="التنبيهات">♧<i></i></button><div class="top-user"><div class="avatar small" id="top-avatar">ف</div><div><strong id="top-name">طالب أفق</strong><small id="top-role">طالب</small></div></div></div></header>
+      <header class="topbar">
+        <div class="topbar-start">
+          <button id="open-menu" class="icon-btn mobile-only" aria-label="فتح القائمة">☰</button>
+
+          <div>
+            <div class="breadcrumb">
+              أُفُق التعليمية <span>/</span>
+              <b id="crumb-current">الرئيسية</b>
+            </div>
+            <div class="today" id="today-label">رحلتك التعليمية تبدأ من هنا</div>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <button class="icon-btn notification" title="التنبيهات">♧<i></i></button>
+
+          <div class="top-user">
+            <div class="avatar small" id="top-avatar">ف</div>
+            <div>
+              <strong id="top-name">طالب أفق</strong>
+              <small id="top-role">طالب</small>
+            </div>
+          </div>
+        </div>
+      </header>
+
       <div id="view-root" class="view-root"></div>
-      <footer class="footer"><span>© 2026 أُفُق التعليمية</span><span>صُممت بشغف لطموحك <b>✦</b></span></footer>
+
+      <footer class="footer">
+        <span>© 2026 أُفُق التعليمية</span>
+        <span>صُممت بشغف لطموحك <b>✦</b></span>
+      </footer>
     </main>
   </div>
+
   <div id="toast" class="toast" role="status"></div>
-  <div id="modal-backdrop" class="modal-backdrop hidden"><div class="modal glass" role="dialog" aria-modal="true"><button class="modal-close" id="modal-close">×</button><div id="modal-content"></div></div></div>
+
+  <div id="modal-backdrop" class="modal-backdrop hidden">
+    <div class="modal glass" role="dialog" aria-modal="true">
+      <button class="modal-close" id="modal-close" aria-label="إغلاق">×</button>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- Firebase: كل مكتبة تُحمّل مرة واحدة فقط -->
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
-  <script src="firebase-config.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
-  <script src="firebase-config.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
+
+  <!-- إعدادات Firebase وملف تشغيل الموقع -->
   <script src="firebase-config.js"></script>
   <script src="app.js"></script>
-</body></html>
+</body>
+</html>
