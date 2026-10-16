@@ -111,8 +111,7 @@
           toast('مشكلة في الاتصال بالإنترنت أو بخدمات Google.');
         } else {
           toast('تعذّر تسجيل الدخول. راجع إعدادات Firebase.');
-        }
-      });
+        };
 
       auth.onAuthStateChanged(user => {
         if (user) {
@@ -133,4 +132,4 @@
     
   
   bindEvents();
-})();
+}();
