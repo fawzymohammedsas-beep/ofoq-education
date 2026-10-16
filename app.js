@@ -124,7 +124,7 @@
           state.user = null;
           $('#app-shell').classList.add('hidden');
           $('#login-screen').classList.remove('hidden');
-        }
+        
                          bindEvents();
 
 }
