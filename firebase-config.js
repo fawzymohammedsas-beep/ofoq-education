@@ -9,5 +9,5 @@ const firebaseConfig = {
 };
 
 if (typeof window !== "undefined") {
-  window.firebaseConfig = firebaseConfig;
+  window.OFOQ_FIREBASE_CONFIG = firebaseConfig;
 }
