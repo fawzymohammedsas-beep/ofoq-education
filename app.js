@@ -636,7 +636,7 @@
       }
 
       try {
-        await auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
+       await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
       } catch (err) {
         console.error('Google sign-in error:', err);
         toast('تعذّر بدء تسجيل الدخول. تحقق من اتصال الإنترنت وإعدادات Firebase.');
@@ -646,7 +646,7 @@
     if (firebaseEnabled) {
       $('#preview-login').classList.add('hidden');
 
-      auth.getRedirectResult().catch(err => {
+     auth.onAuthStateChanged(user => {
         console.error('Google redirect error:', err);
 
         if (err.code === 'auth/network-request-failed') {
