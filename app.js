@@ -636,7 +636,7 @@
       }
 
       try {
-       await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+      await auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
       } catch (err) {
         console.error('Google sign-in error:', err);
         toast('تعذّر بدء تسجيل الدخول. تحقق من اتصال الإنترنت وإعدادات Firebase.');
