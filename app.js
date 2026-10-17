@@ -643,29 +643,20 @@
       }
     });
 
-    if (firebaseEnabled) {
-      $('#preview-login').classList.add('hidden');
+  if (firebaseEnabled) {
+  $('#preview-login').classList.add('hidden');
 
-     auth.onAuthStateChanged(user => {
-        console.error('Google redirect error:', err);
-
-        if (err.code === 'auth/network-request-failed') {
-          toast('مشكلة في الاتصال بالإنترنت أو بخدمات Google.');
-        } else {
-          toast('تعذّر تسجيل الدخول. راجع إعدادات Firebase وAuthorized domains.');
-        }
-      });
-
-      auth.onAuthStateChanged(user => {
-        if (user) {
-          login(user.email || '', user.displayName || user.email, user);
-        } else if (state.user?.uid) {
-          state.user = null;
-          $('#app-shell').classList.add('hidden');
-          $('#login-screen').classList.remove('hidden');
-        }
-      });
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      login(user.email || '', user.displayName || user.email, user);
+    } else if (state.user?.uid) {
+      state.user = null;
+      $('#app-shell').classList.add('hidden');
+      $('#login-screen').classList.remove('hidden');
     }
+  });
+} 
+        
 
     $('#modal-close').addEventListener('click', closeModal);
 
