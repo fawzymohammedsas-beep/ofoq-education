@@ -646,7 +646,13 @@
 
 if (firebaseEnabled) {
   $('#preview-login').classList.add('hidden');
-
+  auth.getRedirectResult()
+    .then(result => {
+      console.log("Google redirect result:", result);
+    })
+    .catch(error => {
+      console.error("Google redirect error:", error.code, error.message);
+    });
   auth.getRedirectResult().catch(err => {
     console.error('Google redirect error:', err);
     toast(
