@@ -643,8 +643,17 @@
       }
     });
 
-  if (firebaseEnabled) {
+
+if (firebaseEnabled) {
   $('#preview-login').classList.add('hidden');
+
+  auth.getRedirectResult().catch(err => {
+    console.error('Google redirect error:', err);
+    toast(
+      'تعذّر تسجيل الدخول: ' +
+      (err.code || err.message || 'خطأ غير معروف')
+    );
+  });
 
   auth.onAuthStateChanged(user => {
     if (user) {
@@ -655,7 +664,8 @@
       $('#login-screen').classList.remove('hidden');
     }
   });
-} 
+}
+
         
 
     $('#modal-close').addEventListener('click', closeModal);
